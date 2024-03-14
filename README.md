@@ -18,7 +18,7 @@ Our project aims to create an interface that displays real-time flight informati
 ### Team Members:
 
 - **Abdullah Çöplü** - [GitHub](https://github.com/acoplu)
-- **Hasan Uzun** - [GitHub](https://github.com/hasanuzun)
-- **Samet Bozdogan** - [GitHub](https://github.com/sbozdogan)
+- **Hasan Uzun** - [GitHub](https://github.com/hasanuzunx)
+- **Samet Bozdogan** - [GitHub](https://github.com/SametBozdogan)
 
 Our team consists of 3 people working together to bring this project to life. Feel free to explore our individual GitHub profiles for more information about our contributions.
