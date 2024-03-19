@@ -11,7 +11,7 @@ const map = new Map({
         new VectorLayer({
             source: new VectorSource({
                 format: new GeoJSON(),
-                url: './data/countries.json',
+                url: './data/flights.json',
             }),
         }),
     ],
