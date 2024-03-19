@@ -8,10 +8,9 @@
     <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-    <div id="root"></div>
-    <script src="https://cdn.jsdelivr.net/npm/ol@6.8.1/dist/ol.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
-    <script src="/src/components/MapComponent.js" type="module"></script>
+    <div id="map"></div>
+    <script src="../src/components/MapComponent.js"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfnf9B171cZwmYkd547fURR5h_zfI96lA&callback=initMap"></script>
 </body>
 </html>
