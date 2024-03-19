@@ -9,8 +9,7 @@
   "dependencies": {
     "browserify": "^17.0.0",
     "node-fetch": "^2.7.0",
-    "ol": "latest",
-    "vite": "^5.1.6"
+    "ol": "^9.0.0"
   },
   "devDependencies": {
     "vite": "^5.1.6"

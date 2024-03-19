@@ -1,16 +1,24 @@
-<!-- public/index.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HyperFlight</title>
-    <link rel="stylesheet" href="assets/styles.css">
+    <meta charset="utf-8">
+    <title>OpenLayers</title>
+    <style>
+        @import "node_modules/ol/ol.css";
+    </style>
+    <style>
+        html, body, #map-container {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            font-family: sans-serif;
+            background-color: #04041b;
+        }
+    </style>
 </head>
 <body>
-    <div id="map"></div>
-    <script src="dist/bundle.js"></script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfnf9B171cZwmYkd547fURR5h_zfI96lA&callback=initMap"></script>
+<div id="map-container"></div>
+<script src="main.js" type="module"></script>
 </body>
 </html>
