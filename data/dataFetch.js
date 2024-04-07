@@ -2,19 +2,12 @@
 const getAllFlights = require('../src/services/OpenSkyService');
 const fs = require('fs');
 
-// Read the existing flights.json file
-fs.readFile('./flights.json', 'utf8', (err, data) => {
-    if (err) {
-        console.error('Error reading flights.json:', err);
-        return;
-    }
-
-    // Parse the existing JSON data
-    let flightsJson = JSON.parse(data);
-
+function fetchData() {
     // Call the getAllFlights function and handle the promise
     getAllFlights()
         .then(flightData => {
+            let flightsJson = { "type": "FeatureCollection", "features": [] };
+
             // Loop through each flight and create a GeoJSON Feature for each one
             flightData.states.forEach(flight => {
                 // Check if the flight has valid latitude and longitude
@@ -35,7 +28,7 @@ fs.readFile('./flights.json', 'utf8', (err, data) => {
                             "on_ground": flight.onGround
                         }
                     };
-                    flightsJson.features.push(feature); // Append the new feature to the features array
+                    flightsJson.features.push(feature);
                 }
             });
 
@@ -51,4 +44,7 @@ fs.readFile('./flights.json', 'utf8', (err, data) => {
             // Handle any errors that occur during the API request
             console.error('Error fetching flight data:', error);
         });
-});
+}
+
+// Set an interval to fetch the data every 15 seconds
+setInterval(fetchData, 15000);
