@@ -1,7 +1,7 @@
 // src/services/OpenSkyService.js
 const fetch = require("node-fetch");
 const FlightState = require('../models/FlightState');
-require('dotenv').config();
+require('dotenv').config({ path: `${__dirname}/../../.env` });
 
 const API_URL = 'https://opensky-network.org/api';
 

@@ -6,7 +6,6 @@ import Map from 'ol/Map';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import View from 'ol/View';
-import Link from 'ol/interaction/Link';
 import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
 
@@ -25,19 +24,25 @@ function createAirplaneStyle(feature) {
     });
 }
 
+// Define the vector source without an initial URL because we'll be setting it with a function
+const vectorSource = new VectorSource({
+    format: new GeoJSON()
+});
+
+// Define the vector layer with the source and style
+const vectorLayer = new VectorLayer({
+    source: vectorSource,
+    style: createAirplaneStyle,
+});
+
+// Define the map
 const map = new Map({
     target: 'map',
     layers: [
         new TileLayer({
             source: new OSM(),
         }),
-        new VectorLayer({
-            source: new VectorSource({
-                format: new GeoJSON(),
-                url: './data/flights.json',
-            }),
-            style: createAirplaneStyle, // Her özelliğe uçak stilini uygula
-        }),
+        vectorLayer
     ],
     view: new View({
         center: [0, 0],
@@ -45,4 +50,23 @@ const map = new Map({
     }),
 });
 
-map.addInteraction(new Link());
+// Function to fetch updated flight data and refresh the vector source
+function updateFlightData() {
+    fetch('./data/flights.json')
+        .then(response => response.json())
+        .then(json => {
+            const features = new GeoJSON().readFeatures(json, {
+                dataProjection: 'EPSG:4326',
+                featureProjection: 'EPSG:3857'
+            });
+            vectorSource.clear(true);
+            vectorSource.addFeatures(features);
+        })
+        .catch(error => {
+            console.error('Error fetching updated flight data:', error);
+        });
+}
+
+// Update the flight data immediately, and then every 15 seconds
+updateFlightData();
+setInterval(updateFlightData, 15000);
