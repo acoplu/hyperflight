@@ -19,7 +19,7 @@ function createAirplaneStyle(feature) {
             anchorYUnits: 'fraction',
             src: './static/plane.png', // Make sure the path to your plane icon is correct
             scale: 0.1, // Adjust the scale according to your map's scale
-            rotation: (trueTrack * Math.PI) / 180, // Convert true track from degrees to radians and apply as rotation
+            rotation: ((trueTrack-45) * Math.PI) / 180, // Convert true track from degrees to radians and apply as rotation
         }),
     });
 }
