@@ -1,8 +1,16 @@
 // src/services/OpenSkyService.js
 const fetch = require("node-fetch");
 const FlightState = require('../models/FlightState');
+require('dotenv').config();
 
 const API_URL = 'https://opensky-network.org/api';
+
+// OpenSky API credentials
+const username = process.env.OPENSKY_USERNAME;
+const password = process.env.OPENSKY_PASSWORD;
+
+// Encode your credentials in base64
+const base64Credentials = Buffer.from(`${username}:${password}`).toString('base64');
 
 async function getAllFlights(boundingBox) {
     try {
@@ -16,7 +24,12 @@ async function getAllFlights(boundingBox) {
             }
         }
 
-        const response = await fetch(url);
+        // Set up the request headers with basic auth
+        const headers = {
+            'Authorization': `Basic ${base64Credentials}`
+        };
+
+        const response = await fetch(url, { headers });
         if (!response.ok) {
             console.error('Response status:', response.status);
             console.error('Response status text:', response.statusText);
