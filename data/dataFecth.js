@@ -27,8 +27,12 @@ fs.readFile('./flights.json', 'utf8', (err, data) => {
                         },
                         "properties": {
                             "icao24": flight.icao24,
-                            "callsign": flight.callsign
-                            // Add more properties if needed
+                            "callsign": flight.callsign,
+                            "origin_country": flight.originCountry,
+                            "velocity": flight.velocity,
+                            "true_track": flight.trueTrack,
+                            "vertical_rate": flight.verticalRate,
+                            "on_ground": flight.onGround
                         }
                     };
                     flightsJson.features.push(feature); // Append the new feature to the features array
