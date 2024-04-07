@@ -17,7 +17,7 @@ const airplaneStyle = new Style({
         anchorXUnits: 'fraction',
         anchorYUnits: 'fraction',
         src: './static/plane.png', // Uçak ikonunuzun yolunu buraya girin
-        scale: 1, // Haritanın ölçeğine uygun şekilde ayarlayın
+        scale: 0.05, // Haritanın ölçeğine uygun şekilde ayarlayın
     }),
 });
 
