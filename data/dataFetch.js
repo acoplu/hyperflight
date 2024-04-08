@@ -3,6 +3,33 @@ const getAllFlights = require('../src/services/OpenSkyService');
 const fs = require('fs');
 const path = require('path');
 
+// Assuming you've already set up the fetching of flight data...
+function appendFlightHistory(flight) {
+    const historyDirPath = path.join(__dirname, 'history');
+    if (!fs.existsSync(historyDirPath)){
+        fs.mkdirSync(historyDirPath, { recursive: true });
+    }
+    const historyFilePath = path.join(historyDirPath, `${flight.icao24}.json`);
+
+    let history = [];
+    if (fs.existsSync(historyFilePath)) {
+        history = JSON.parse(fs.readFileSync(historyFilePath));
+    }
+
+    history.push({
+        latitude: flight.latitude,
+        longitude: flight.longitude
+    });
+
+    // Limit the history length to prevent file size from growing indefinitely
+    const maxHistoryLength = 100;
+    if (history.length > maxHistoryLength) {
+        history = history.slice(-maxHistoryLength);
+    }
+
+    fs.writeFileSync(historyFilePath, JSON.stringify(history, null, 2));
+}
+
 function fetchData() {
     // Call the getAllFlights function and handle the promise
     getAllFlights()
@@ -30,6 +57,7 @@ function fetchData() {
                         }
                     };
                     flightsJson.features.push(feature);
+                    if (flight.originCountry === "Turkey") appendFlightHistory(flight);
                 }
             });
 
@@ -50,4 +78,4 @@ function fetchData() {
 
 // Set an interval to fetch the data every 15 seconds
 fetchData()
-setInterval(fetchData, 5000);
+setInterval(fetchData, 10000);

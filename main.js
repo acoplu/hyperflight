@@ -9,6 +9,10 @@ import View from 'ol/View';
 import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
 import Overlay from 'ol/Overlay';
+import {LineString} from 'ol/geom';
+import {Feature} from 'ol';
+import {Stroke} from 'ol/style';
+import {fromLonLat} from "ol/proj";
 
 // Define a function to create a new style based on the plane's true track
 function createAirplaneStyle(feature) {
@@ -51,6 +55,43 @@ const map = new Map({
     }),
 });
 
+const flightPathSource = new VectorSource();
+const flightPathLayer = new VectorLayer({
+    source: flightPathSource,
+    style: new Style({
+        stroke: new Stroke({
+            color: '#FF0000', // Path color
+            width: 2 // Path width
+        })
+    })
+});
+map.addLayer(flightPathLayer);
+
+// Updated drawFlightPath function
+function drawFlightPath(icao24) {
+    const historyFilePath = `./data/history/${icao24}.json`; // Ensure this path is correct
+    console.log(historyFilePath)
+    fetch(historyFilePath)
+        .then(response => response.json())
+        .then(history => {
+            // Ensure history data is not empty
+            if (!history || history.length === 0) {
+                console.error('No history data found for', icao24);
+                return;
+            }
+            console.log(history)
+            const coordinates = history.map(pos => fromLonLat([parseFloat(pos.longitude), parseFloat(pos.latitude)]));
+            console.log(coordinates)
+            const flightPathFeature = new Feature({
+                geometry: new LineString(coordinates)
+            });
+
+            flightPathSource.clear(); // Clear any existing paths
+            flightPathSource.addFeature(flightPathFeature);
+        })
+        .catch(error => console.error('Error fetching flight path:', error));
+}
+
 // Function to create an info box overlay
 const infoBoxOverlay = new Overlay({
     element: document.createElement('div'),
@@ -86,8 +127,11 @@ map.on('singleclick', function(evt) {
 
     if (feature) {
         showInfoBox(feature);
+        console.log(feature.get('icao24'))
+        drawFlightPath(feature.get('icao24')); // Now also draw the path
     } else {
-        infoBoxOverlay.setPosition(undefined); // Hide the info box when clicking elsewhere on the map
+        infoBoxOverlay.setPosition(undefined); // Hide the info box when clicking elsewhere
+        flightPathSource.clear(); // Optionally clear the path when clicking elsewhere
     }
 });
 
@@ -110,4 +154,4 @@ function updateFlightData() {
 
 // Update the flight data immediately, and then every 15 seconds
 updateFlightData();
-setInterval(updateFlightData, 5000);
+setInterval(updateFlightData, 10000);
