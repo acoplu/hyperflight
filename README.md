@@ -1,4 +1,4 @@
-## HyperFlight
+![Ekran Alıntısı1](https://github.com/acoplu/hyperflight/assets/156203631/cd0ee2d4-0e89-45e6-8a67-bd2b7e7b09d4)## HyperFlight
 
 Our project aims to create an interface that displays real-time flight information on a map. Users will be able to track flights, view their routes, and collect relevant details about each flight such as altitude, latitude, and longitude.
 
@@ -19,6 +19,16 @@ Our project aims to create an interface that displays real-time flight informati
 
 - **Abdullah Çöplü** - [GitHub](https://github.com/acoplu)
 - **Hasan Uzun** - [GitHub](https://github.com/hasanuzunx)
-- **Samet Bozdogan** - [GitHub](https://github.com/SametBozdogan)
 
-Our team consists of 3 people working together to bring this project to life. Feel free to explore our individual GitHub profiles for more information about our contributions.
+Our team consists of 2 people working together to bring this project to life. Feel free to explore our individual GitHub profiles for more information about our contributions.
+
+### Credits:
+
+- This project utilizes data from OpenSky Network.
+- Map data and services are provided by the Openlayers Platform.
+- General Purpose ChatGPT.
+
+- ![Ekran Alıntısı1](https://github.com/acoplu/hyperflight/assets/156203631/be2d0057-351f-4562-b044-a6f53d83f166)
+
+- ![Ekran Alıntısı2](https://github.com/acoplu/hyperflight/assets/156203631/719a0774-ca36-4fd2-bfce-59e1f50d1020)
+
