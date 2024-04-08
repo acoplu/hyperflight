@@ -26,6 +26,7 @@ Our team consists of 2 people working together to bring this project to life. Fe
 - This project utilizes data from OpenSky Network.
 - Map data and services are provided by the Openlayers Platform.
 - General Purpose ChatGPT.
+- Conitinious Integration : Travis CI [![Build Status](https://app.travis-ci.com/acoplu/hyperflight.svg?token=u22fRhHFXNy3NZ3LnVKh&branch=main)](https://app.travis-ci.com/acoplu/hyperflight)
 
 - ![Ekran Alıntısı1](https://github.com/acoplu/hyperflight/assets/156203631/be2d0057-351f-4562-b044-a6f53d83f166)
 
