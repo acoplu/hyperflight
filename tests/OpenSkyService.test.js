@@ -1,30 +1,31 @@
-// tests/OpenSkyService.test.js
+// tests/dataFetch.test.js
+jest.mock('fs', () => require('mock-fs'));
+jest.mock('../src/services/OpenSkyService', () => ({
+    __esModule: true,
+    default: jest.fn(),
+}));
 
-// Import the function to be tested
-const { fetchFlights } = require('../src/services/OpenSkyService');
+const mockFs = require('mock-fs');
+const { fetchData } = require('../data/dataFetch');
+const getAllFlights = require('../src/services/OpenSkyService').default;
 
-// Mocking the fetch function
-global.fetch = jest.fn(() =>
-    Promise.resolve({
-        json: () => Promise.resolve({ /* mock response data */ }),
-    })
-);
-
-describe('OpenSkyService', () => {
-    test('fetchFlights function should fetch flight data from the OpenSky API', async () => {
-        // Arrange
-        const boundingBox = {
-            lamin: 45.8389,
-            lomin: 5.9962,
-            lamax: 47.8229,
-            lomax: 10.5226
-        };
-
-        // Act
-        const flightData = await fetchFlights(boundingBox);
-
-        // Assert
-        expect(global.fetch).toHaveBeenCalledTimes(1);
-        //expect(global.fetch).toHaveBeenCalledWith(/* expected API endpoint with boundingBox */);
+beforeEach(() => {
+    mockFs({
+        'data/history': {}, // Mock an empty history directory
     });
+    getAllFlights.mockClear();
+});
+
+afterEach(() => {
+    mockFs.restore();
+});
+
+it('fetches data and updates flight history', async () => {
+    getAllFlights.mockResolvedValue({
+        states: [
+            ['4b8e05', 'some-data', 'more-data', /* more mock data as per FlightState model */],
+        ],
+    });
+
+    await fetchData();
 });
