@@ -8,6 +8,7 @@ import VectorSource from 'ol/source/Vector';
 import View from 'ol/View';
 import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
+import Overlay from 'ol/Overlay';
 
 // Define a function to create a new style based on the plane's true track
 function createAirplaneStyle(feature) {
@@ -50,6 +51,46 @@ const map = new Map({
     }),
 });
 
+// Function to create an info box overlay
+const infoBoxOverlay = new Overlay({
+    element: document.createElement('div'),
+    positioning: 'bottom-center',
+    stopEvent: false,
+    offset: [0, -10],
+});
+map.addOverlay(infoBoxOverlay);
+
+// Function to update and show the info box
+function showInfoBox(feature) {
+    const element = infoBoxOverlay.getElement();
+    element.innerHTML = `
+    <div class="info-box">
+      <p><strong>CallSign:</strong> ${feature.get('callsign')}</p>
+      <h2>Flight Details</h2>
+      <hr style="border: none; border-top: 1px solid #ddd;">
+      <p><strong>ICAO24:</strong> ${feature.get('icao24')}</p>
+      <p><strong>OriginCountry:</strong> ${feature.get('origin_country')}</p>
+      <p><strong>Velocity:</strong> ${feature.get('velocity')} m/s</p>
+      <p><strong>TrueTrack:</strong> ${feature.get('true_track')}°</p>
+      <p><strong>VerticalRate:</strong> ${feature.get('vertical_rate')} ft/min</p>
+    </div>
+  `;
+    infoBoxOverlay.setPosition(feature.getGeometry().getCoordinates());
+}
+
+// Enhance updateFlightData function to include an event listener for clicks on the map
+map.on('singleclick', function(evt) {
+    const feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+        return feature;
+    });
+
+    if (feature) {
+        showInfoBox(feature);
+    } else {
+        infoBoxOverlay.setPosition(undefined); // Hide the info box when clicking elsewhere on the map
+    }
+});
+
 // Function to fetch updated flight data and refresh the vector source
 function updateFlightData() {
     fetch('./data/flights.json')
@@ -69,4 +110,4 @@ function updateFlightData() {
 
 // Update the flight data immediately, and then every 15 seconds
 updateFlightData();
-setInterval(updateFlightData, 15000);
+setInterval(updateFlightData, 5000);
