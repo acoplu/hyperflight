@@ -1,6 +1,30 @@
 // Import the OpenSkyService
 const getAllFlights = require('../src/services/OpenSkyService');
 const fs = require('fs');
+const path = require('path');
+
+// This function appends a flight's current position to its history
+function appendFlightHistory(flight) {
+    const historyFilePath = path.join(__dirname, './history', `${flight.icao24}.json`);
+
+    let history = [];
+    if (fs.existsSync(historyFilePath)) {
+        history = JSON.parse(fs.readFileSync(historyFilePath));
+    }
+
+    history.push({
+        latitude: flight.latitude,
+        longitude: flight.longitude
+    });
+
+    // Limit history size to avoid large files (optional)
+    const maxHistorySize = 100; // Example: Keep the last 100 positions
+    if (history.length > maxHistorySize) {
+        history = history.slice(-maxHistorySize);
+    }
+
+    fs.writeFileSync(historyFilePath, JSON.stringify(history, null, 2));
+}
 
 function fetchData() {
     // Call the getAllFlights function and handle the promise
@@ -29,6 +53,7 @@ function fetchData() {
                         }
                     };
                     flightsJson.features.push(feature);
+                    appendFlightHistory(flight);
                 }
             });
 
@@ -36,7 +61,8 @@ function fetchData() {
             flightsJson = JSON.stringify(flightsJson, null, 2);
 
             // Write the updated JSON string back to the flights.json file
-            fs.writeFileSync('./flights.json', flightsJson);
+            const filePath = path.join(__dirname, './flights.json'); // Construct the absolute path
+            fs.writeFileSync(filePath, flightsJson);
 
             console.log('Flight data appended to flights.json');
         })
