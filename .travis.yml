@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - 16
+
+cache:
+  directories:
+    - node_modules
+
+install:
+  - npm install
+
+script:
+  - npm run build
+
+after_success:
+  - echo "Build was successful. Implement deployment or other steps here."
+
+# Branches to build
+branches:
+  only:
+    - main
