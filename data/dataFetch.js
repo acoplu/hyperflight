@@ -1,7 +1,6 @@
 // Import the OpenSkyService
 const getAllFlights = require('../src/services/OpenSkyService');
 const fs = require('fs');
-const path = require('path');
 
 function fetchData() {
     // Call the getAllFlights function and handle the promise
@@ -37,8 +36,7 @@ function fetchData() {
             flightsJson = JSON.stringify(flightsJson, null, 2);
 
             // Write the updated JSON string back to the flights.json file
-            const filePath = path.join(__dirname, './flights.json'); // Construct the absolute path
-            fs.writeFileSync(filePath, flightsJson);
+            fs.writeFileSync('./flights.json', flightsJson);
 
             console.log('Flight data appended to flights.json');
         })

@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "scripts": {
     "start": "vite",
-    "fetch:data": "node data/dataFetch.js",
-    "start:all": "concurrently \"npm:fetch:data\" \"npm:start\"",
     "build": "vite build",
     "serve": "vite preview"
   },
