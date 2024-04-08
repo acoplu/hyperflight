@@ -1,3 +1,4 @@
+## HyperFlight
 Our project aims to create an interface that displays real-time flight information on a map. Users will be able to track flights, view their routes, and collect relevant details about each flight such as altitude, latitude, and longitude.
 
 ### Implementation Plan:
